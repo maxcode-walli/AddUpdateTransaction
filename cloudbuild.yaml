@@ -1,0 +1,17 @@
+﻿steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  args:
+  - gcloud
+  - functions
+  - deploy
+  - AddUpdateTransaction
+  - --region=europe-west3
+  - --memory=128MB
+  - --max-instances=1
+  - --project=impactful-shard-374913
+  - --service-account=backend-functions@impactful-shard-374913.iam.gserviceaccount.com
+  - --source=.
+  - --trigger-http
+  - --allow-unauthenticated
+  - --runtime=dotnet6
+  - --entry-point=AddUpdateTransaction.AddUpdateTransaction
