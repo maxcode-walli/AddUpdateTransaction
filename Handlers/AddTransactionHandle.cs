@@ -13,9 +13,9 @@ namespace AddUpdateTransaction.Handlers
         const string PROJECT_ID = "impactful-shard-374913";
         const string OUTPUT_TOPIC = "TestTopic";
 
-        public async Task Handle(Transaction entity)
+        public async Task Handle(Transaction transaction)
         {
-            await PublishTransaction(entity);
+            await PublishTransaction(transaction);
         }
 
         public static async Task PublishTransaction(Transaction transaction)
