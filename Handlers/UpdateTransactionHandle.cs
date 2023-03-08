@@ -9,7 +9,7 @@ namespace AddUpdateTransaction.Handlers
     public class UpdateTransactionHandle : IHandler<ScoreResponse>
     {
         const string EVENT_TYPE_KEY = "pigeon.eventType";
-        const string EVENT_TYPE_VALUE = "walli.TransactionReceived";
+        const string EVENT_TYPE_VALUE = "walli.TransactionAnomalyScoreCalculatedEventV1";
         const string PROJECT_ID = "impactful-shard-374913";
         const string OUTPUT_TOPIC = "TransactionScores";
 
