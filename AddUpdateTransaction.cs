@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using AddUpdateTransaction.Handlers;
+using System.Net;
 
 namespace AddUpdateTransaction
 {
@@ -11,16 +12,26 @@ namespace AddUpdateTransaction
     {
         public async Task HandleAsync(HttpContext context)
         {
-            var req = context.Request;
-            if (req.Method == "POST")
+            HttpRequest request = context.Request;
+            HttpResponse response = context.Response;
+
+            response.Headers.Append("Access-Control-Allow-Origin", "*");
+            if (HttpMethods.IsOptions(request.Method))
             {
-                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+                response.Headers.Append("Access-Control-Allow-Methods", "POST, PUT");
+                response.Headers.Append("Access-Control-Allow-Headers", "*");
+                response.StatusCode = (int)HttpStatusCode.NoContent;
+                return;
+            }
+            if (request.Method == "POST")
+            {
+                string requestBody = await new StreamReader(request.Body).ReadToEndAsync();
                 var data = JsonConvert.DeserializeObject<Transaction>(requestBody);
                 await new AddTransactionHandle().Handle(data);
             }
-            else if (req.Method == "PUT")
+            else if (request.Method == "PUT")
             {
-                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+                string requestBody = await new StreamReader(request.Body).ReadToEndAsync();
                 var data = JsonConvert.DeserializeObject<ScoreResponse>(requestBody);
                 await new UpdateTransactionHandle().Handle(data);
             }
